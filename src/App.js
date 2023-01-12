@@ -22,21 +22,21 @@ function App() {
             </li>
             <li className="nav-item m-1">
               <NavLink className="btn btn-light btn-outline-primary" to="/department">
-                Department
+              Employee
               </NavLink>
             </li>
-            <li className="nav-item m-1">
+            {/* <li className="nav-item m-1">
               <NavLink className="btn btn-light btn-outline-primary" to="/employee">
                 Employee
               </NavLink>
-            </li>
+            </li> */}
           </ul>
         </nav>
 
         <switch>
-          <Route path='/home' component={Home}></Route>
+          {/* <Route path='/home' component={Home}></Route> */}
           <Route path='/department' component={Department}></Route>
-          <Route path='/employee' component={Employee}></Route>
+          {/* <Route path='/employee' component={Employee}></Route> */}
         </switch>
       </div>
     </BrowserRouter>

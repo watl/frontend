@@ -45,20 +45,20 @@ export class Department extends Component {
         this.setState({ employees: sortedData });
     }
 
-    changeDepartmentIdFilter = (e) => {
+    changeEmployeedIdFilter = (e) => {
         this.state.EmployeeIdFilter = e.target.value;
         this.FilterFn();
     }
-    changeDepartmentNameFilter = (e) => {
+    changeEmployeeNameFilter = (e) => {
         this.state.EmployeeNameFilter = e.target.value;
         this.FilterFn();
     }
 
     refreshList() {
-        fetch(variables.API_URL + 'department/getDepartment')
+        fetch(variables.API_URL + 'Employee/GetEmployee')
             .then(response => response.json())
             .then(data => {
-                this.setState({ departments: data, departmentsWithoutFilter: data });
+                this.setState({ departments: data, employeeWithoutFilter: data });
             });
     }
 
@@ -66,34 +66,34 @@ export class Department extends Component {
         this.refreshList();
     }
 
-    changeDepartmentName = (e) => {
-        this.setState({ DepartmentName: e.target.value });
+    changeEmployeeName = (e) => {
+        this.setState({ first_name: e.target.value });
     }
 
     addClick() {
         this.setState({
-            modalTitle: "Add Department",
-            DepartmentId: 0,
-            DepartmentName: ""
+            modalTitle: "Add Employee",
+            Id: 0,
+            first_name: ""
         });
     }
     editClick(dep) {
         this.setState({
-            modalTitle: "Edit Department",
-            DepartmentId: dep.DepartmentId,
-            DepartmentName: dep.DepartmentName
+            modalTitle: "Edit Employee",
+            Id: dep.Id,
+            first_name: dep.first_name
         });
     }
 
     createClick() {
-        fetch(variables.API_URL + 'department/adddepartment', {
+        fetch(variables.API_URL + 'Employee/AddEmployee', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                DepartmentName: this.state.DepartmentName
+                first_name: this.state.first_name
             })
         })
             .then(res => res.json())
@@ -105,15 +105,15 @@ export class Department extends Component {
             })
     }
     updateClick() {
-        fetch(variables.API_URL + 'department/updatedepartment', {
+        fetch(variables.API_URL + 'Employee/UpdateEmployee', {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                DepartmentId: this.state.DepartmentId,
-                DepartmentName: this.state.DepartmentName
+                Id: this.state.Id,
+                first_name: this.state.first_name
             })
         })
             .then(res => res.json())
@@ -126,7 +126,7 @@ export class Department extends Component {
     }
     deleteClick(id) {
         if (window.confirm('Are you sure?')) {
-            fetch(variables.API_URL + 'department/deletedepartment/' + id, {
+            fetch(variables.API_URL + 'Employee/DeleteEmployee/' + id, {
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json',
@@ -145,10 +145,10 @@ export class Department extends Component {
 
     render() {
         const {
-            departments,
+            employees,
             modalTitle,
-            DepartmentId,
-            DepartmentName
+            Id,
+            first_name
         } = this.state;
 
         return (
@@ -158,7 +158,7 @@ export class Department extends Component {
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     onClick={() => this.addClick()}>
-                    Add Department
+                    Add Employee
                 </button>
                 <table className="table table-striped">
                     <thead>
@@ -167,41 +167,41 @@ export class Department extends Component {
                                 <div className="d-flex flex-row">
 
                                     <input className="form-control m-2"
-                                        onChange={this.changeDepartmentIdFilter}
+                                        onChange={this.changeEmployeedIdFilter}
                                         placeholder="Filter" />
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('DepartmentId', true)}>
+                                        onClick={() => this.sortResult('Id', true)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                                         </svg>
                                     </button>
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('DepartmentId', false)}>
+                                        onClick={() => this.sortResult('Id', false)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                                         </svg>
                                     </button>
 
                                 </div>
-                                Department Id
+                                Employee Id
                             </th>
                             <th>
                                 <div className="d-flex flex-row">
                                     <input className="form-control m-2"
-                                        onChange={this.changeDepartmentNameFilter}
+                                        onChange={this.changeEmployeeNameFilter}
                                         placeholder="Filter" />
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('DepartmentName', true)}>
+                                        onClick={() => this.sortResult('first_name', true)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                                         </svg>
                                     </button>
 
                                     <button type="button" className="btn btn-light"
-                                        onClick={() => this.sortResult('DepartmentName', false)}>
+                                        onClick={() => this.sortResult('first_name', false)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
                                             <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                                         </svg>
@@ -216,10 +216,10 @@ export class Department extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {departments.map(dep =>
-                            <tr key={dep.DepartmentId}>
-                                <td>{dep.DepartmentId}</td>
-                                <td>{dep.DepartmentName}</td>
+                        {employees.map(dep =>
+                            <tr key={dep.Id}>
+                                <td>{dep.Id}</td>
+                                <td>{dep.first_name}</td>
                                 <td>
                                     <button type="button"
                                         className="btn btn-light mr-1"
@@ -234,7 +234,7 @@ export class Department extends Component {
 
                                     <button type="button"
                                         className="btn btn-light mr-1"
-                                        onClick={() => this.deleteClick(dep.DepartmentId)}>
+                                        onClick={() => this.deleteClick(dep.Id)}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16">
                                             <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                         </svg>
@@ -256,20 +256,20 @@ export class Department extends Component {
 
                             <div className="modal-body">
                                 <div className="input-group mb-3">
-                                    <span className="input-group-text">Department Name</span>
+                                    <span className="input-group-text">Employee Name</span>
                                     <input type="text" className="form-control"
-                                        value={DepartmentName}
-                                        onChange={this.changeDepartmentName} />
+                                        value={first_name}
+                                        onChange={this.changeEmployeeName} />
                                 </div>
 
-                                {DepartmentId === 0 ?
+                                {Id === 0 ?
                                     <button type="button"
                                         className="btn btn-primary float-start"
                                         onClick={() => this.createClick()}
                                     >Create</button>
                                     : null}
 
-                                {DepartmentId !== 0 ?
+                                {Id !== 0 ?
                                     <button type="button"
                                         className="btn btn-primary float-start"
                                         onClick={() => this.updateClick()}
